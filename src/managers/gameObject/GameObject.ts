@@ -6,13 +6,12 @@ import { IROContextCfg } from '../../scenes/types';
 
 export class GameObject {
     name: string;
+    conponents: Array<Component>;
+    container: Phaser.GameObjects.Container;
 
     private scene: Phaser.Scene;
-    private conponents: Array<Component>;
     private renderType: string;
     private context: IROContextCfg;
-
-    private container: Phaser.GameObjects.Container;
 
     construstor(props: IROGameObjectCfg) {
         this.name = props.name;
@@ -20,15 +19,6 @@ export class GameObject {
         this.conponents = props.conponents;
         this.renderType = props.renderType;
         this.context = props.context;
-    }
-
-    remove() {
-        this.conponents?.forEach(component => {
-            component.remove();
-        });
-
-        this.conponents = [];
-        this.container.destroy();
     }
 
     removeComponentByName(name: string) {
@@ -43,4 +33,6 @@ export class GameObject {
     getComponentByName(name: string): Component {
         return this.conponents?.find((component) => component.name === name);
     }
+
+    remove() {}
 }
