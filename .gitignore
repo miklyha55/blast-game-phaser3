@@ -7,8 +7,6 @@ Thumbs.db
 *.sublime-workspace
 
 # Vendors
-dist
-dist/
 node_modules
 node_modules/
 
