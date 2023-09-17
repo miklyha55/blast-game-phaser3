@@ -1,17 +1,19 @@
 import * as Phaser from 'phaser';
 
+import { IROComponentCfg } from './types';
+
 export class Component {
     name: string;
     
-    private scene: Phaser.Scene;
-    private parent: Phaser.GameObjects.Container;
+    protected scene: Phaser.Scene;
+    protected parent: Phaser.GameObjects.Container;
+    protected container: Phaser.GameObjects.Container;
 
-    private container: Phaser.GameObjects.Container;
-
-    construstor(name: string, scene: Phaser.Scene, parent: Phaser.GameObjects.Container) {
-        this.name = name;
-        this.scene = scene;
-        this.parent = parent;
+    constructor(props: IROComponentCfg, container?: Phaser.GameObjects.Container) {
+        this.name = props.name;
+        this.scene = props.scene;
+        this.parent = props.parent;
+        this.container = container;
     }
 
     remove() {
