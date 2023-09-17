@@ -6,7 +6,6 @@ import HudScene from '../scenes/HudScene';
 import { RESOLUTION } from './constants';
 import LoaderScene from '../scenes/LoaderScene';
 
-
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width: RESOLUTION.width,
@@ -17,7 +16,7 @@ const config: Phaser.Types.Core.GameConfig = {
         HudScene
     ],
     scale: {
-        mode: Phaser.Scale.RESIZE,
+        mode: Phaser.Scale.FIT,
         parent: "game",
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
