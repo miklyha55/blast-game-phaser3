@@ -12,6 +12,8 @@ export class Sprite extends Component
         super(props);
 
         this.sprite = props.scene.add.sprite(0, 0, props.texture);
+        this.sprite.setOrigin(props.origin.x, props.origin.y);
+        
         this.container.add(this.sprite);
     }
 
