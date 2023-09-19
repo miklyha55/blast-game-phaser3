@@ -5,6 +5,7 @@ import { IROComponentCfg } from './types';
 export class Component {
     name: string;
     container: Phaser.GameObjects.Container;
+    parent: Phaser.GameObjects.Container;
     
     protected scene: Phaser.Scene;
 
@@ -12,8 +13,6 @@ export class Component {
         this.name = props.name;
         this.scene = props.scene;
         this.container = props.scene.add.container(0, 0);
-
-        this.onCreate();
     }
 
     remove() {
@@ -21,6 +20,6 @@ export class Component {
         this.container.destroy();
     }
 
-    protected onRemove() {}
-    protected onCreate() {}
+    onRemove() {}
+    onCreate() {}
 }
