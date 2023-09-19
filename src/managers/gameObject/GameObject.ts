@@ -2,20 +2,25 @@ import * as Phaser from 'phaser';
 
 import { Component } from '../../components/core/Component';
 import { IROGameObjectCfg } from './types';
+import { IROContextCfg } from '../../scenes/types';
 
 export class GameObject {
     name: string;
+    index: number;
     conponents: Array<Component>;
     container: Phaser.GameObjects.Container;
 
     private scene: Phaser.Scene;
     private renderLayer: Phaser.GameObjects.Container;
 
+    protected context: IROContextCfg;
+
     constructor(props: IROGameObjectCfg) {
         this.name = props.name;
         this.scene = props.scene;
         this.conponents = props.conponents;
         this.renderLayer = props.renderLayer;
+        this.context = props.context;
 
         this.container = this.scene.add.container(0, 0);
 

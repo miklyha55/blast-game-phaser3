@@ -1,32 +1,34 @@
 import { GameObject } from './GameObject';
-import { GAME_OBJECTS } from './constants';
-import { GameObjectClassType, IROGameObjectCfg } from './types';
+import { IROGameObjectCfg } from './types';
 
 export class GameObjectManager {
     private readonly gameObjects: Array<GameObject>;
 
-    createGameObject(type: string, props: IROGameObjectCfg) {
-        const gameObjectClassType: GameObjectClassType = GAME_OBJECTS.get(type);
+    constructor() {
+        this.gameObjects = [];
+    }
 
-        if(gameObjectClassType) {
-            const gameObject: GameObject = new gameObjectClassType(props);
-            
-            this.gameObjects.push(gameObject);
-            
-            gameObject.remove = () => {
-                const index: number = this.gameObjects.length - 1;
+    createGameObject(props: IROGameObjectCfg): GameObject {
+        const gameObject: GameObject = new GameObject(props);
+        
+        this.gameObjects.push(gameObject);
+        
+        gameObject.remove = () => {
+            const index: number = this.gameObjects.length - 1;
 
-                gameObject.conponents?.forEach(component => {
-                    component.remove();
-                });
+            gameObject.conponents?.forEach(component => {
+                component.remove();
+            });
 
-                gameObject.conponents = [];
-                gameObject.container.destroy();
-                gameObject.onRemove();
+            gameObject.conponents = [];
+            gameObject.container.destroy();
+            gameObject.onRemove();
 
-                this.gameObjects.splice(index, 1);
-            };
-        }
+            this.gameObjects.splice(index, 1);
+            console.log(this.gameObjects);
+        };
+
+        return gameObject;
     }
 
     getGameObjectByName(name: string): GameObject {
