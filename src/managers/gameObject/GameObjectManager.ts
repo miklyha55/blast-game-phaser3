@@ -22,6 +22,7 @@ export class GameObjectManager {
 
                 gameObject.conponents = [];
                 gameObject.container.destroy();
+                gameObject.onRemove();
 
                 this.gameObjects.splice(index, 1);
             };

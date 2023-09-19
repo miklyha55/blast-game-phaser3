@@ -23,7 +23,10 @@ export class GameObject {
             this.container.add(component.container);
         });
 
+        this.container.setSize(this.container.getBounds().width, this.container.getBounds().height);
+
         this.renderLayer.add(this.container);
+        this.onCreate();
     }
 
     removeComponentByName(name: string) {
@@ -40,4 +43,6 @@ export class GameObject {
     }
 
     remove() {}
+    onRemove() {}
+    onCreate() {}
 }
