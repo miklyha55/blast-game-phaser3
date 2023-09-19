@@ -3,7 +3,7 @@ import { GAME_OBJECTS } from './constants';
 import { GameObjectClassType, IROGameObjectCfg } from './types';
 
 export class GameObjectManager {
-    private gameObjects: Array<GameObject>;
+    private readonly gameObjects: Array<GameObject>;
 
     createGameObject(type: string, props: IROGameObjectCfg) {
         const gameObjectClassType: GameObjectClassType = GAME_OBJECTS.get(type);
@@ -33,7 +33,7 @@ export class GameObjectManager {
     }
 
     removeGameObjectByName(name: string) {
-        this.gameObjects?.forEach((gameObject, index) => {
+        this.gameObjects?.forEach(gameObject => {
             if(gameObject.name === name) {
                 gameObject.remove();
             }

@@ -2,7 +2,6 @@ import * as Phaser from 'phaser';
 
 import { Component } from '../../components/core/Component';
 import { IROGameObjectCfg } from './types';
-import { IROContextCfg } from '../../scenes/types';
 
 export class GameObject {
     name: string;
@@ -10,15 +9,21 @@ export class GameObject {
     container: Phaser.GameObjects.Container;
 
     private scene: Phaser.Scene;
-    private renderType: string;
-    private context: IROContextCfg;
+    private renderLayer: Phaser.GameObjects.Container;
 
-    construstor(props: IROGameObjectCfg) {
+    constructor(props: IROGameObjectCfg) {
         this.name = props.name;
         this.scene = props.scene;
         this.conponents = props.conponents;
-        this.renderType = props.renderType;
-        this.context = props.context;
+        this.renderLayer = props.renderLayer;
+
+        this.container = this.scene.add.container(0, 0);
+
+        this.conponents.forEach(component => {
+            this.container.add(component.container);
+        });
+
+        this.renderLayer.add(this.container);
     }
 
     removeComponentByName(name: string) {
