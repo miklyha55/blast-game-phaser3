@@ -7,6 +7,9 @@ import { SCENE_NAMES } from './constants';
 import { IROContextCfg } from './types';
 
 import { Assets } from '../configs/assets';
+import { ASSETS_NAME } from '../configs/assets/Assets';
+import { RenderManager } from '../managers/render/RenderManager';
+import { RENDER_GAME_LAYERS, RENDER_UI_LAYERS } from '../managers/render/constants';
 
 export default class LoaderScene extends Phaser.Scene {
     constructor() {
@@ -25,7 +28,9 @@ export default class LoaderScene extends Phaser.Scene {
                 hudScene,
             },
 
-            jsonGame: this.cache.json.get("game.json"),
+            jsonGame: this.cache.json.get(ASSETS_NAME.GameCfg),
+            renderGameManager: new RenderManager(gameScene, RENDER_GAME_LAYERS),
+            renderUiManager: new RenderManager(gameScene, RENDER_UI_LAYERS),
         }
 
         this.scene.launch(SCENE_NAMES.GameScene, context);
