@@ -20,7 +20,10 @@ export class GameObject {
         this.container = this.scene.add.container(0, 0);
 
         this.conponents.forEach(component => {
+            component.parent = this.container;
             this.container.add(component.container);
+            
+            component.onCreate();
         });
 
         this.container.setSize(this.container.getBounds().width, this.container.getBounds().height);
