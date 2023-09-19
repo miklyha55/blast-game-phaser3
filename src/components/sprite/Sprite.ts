@@ -13,16 +13,16 @@ export class Sprite extends Component
 
         this.sprite = props.scene.add.sprite(0, 0, props.texture);
         this.sprite.setOrigin(props.origin.x, props.origin.y);
-        
+
         this.container.add(this.sprite);
     }
 
     override onCreate() {
-        this.container.on(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
+        this.parent.on(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
     }
 
     override onRemove() {
-        this.container.off(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
+        this.parent.off(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
     }
 
     private onSetTexture(key: string) {
