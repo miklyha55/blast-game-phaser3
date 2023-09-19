@@ -4,21 +4,23 @@ import { IROComponentCfg } from './types';
 
 export class Component {
     name: string;
+    container: Phaser.GameObjects.Container;
     
     protected scene: Phaser.Scene;
-    protected parent: Phaser.GameObjects.Container;
-    protected container: Phaser.GameObjects.Container;
 
-    constructor(props: IROComponentCfg, container?: Phaser.GameObjects.Container) {
+    constructor(props: IROComponentCfg) {
         this.name = props.name;
         this.scene = props.scene;
-        this.parent = props.parent;
-        this.container = container;
+        this.container = props.scene.add.container(0, 0);
+
+        this.onCreate();
     }
 
     remove() {
-        if(this.container) {
-            this.container.destroy();
-        }
+        this.onRemove();
+        this.container.destroy();
     }
+
+    protected onRemove() {}
+    protected onCreate() {}
 }
