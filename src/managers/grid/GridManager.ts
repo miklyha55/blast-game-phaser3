@@ -25,7 +25,7 @@ export class GridManager {
     compareCell(cell: Cell) {
         this.compareCells = [];
         this.loopCompare(cell);
-        console.log(cell);
+
         if(this.compareCells.length > 2) {
             this.removeCompare();
         }

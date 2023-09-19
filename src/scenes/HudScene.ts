@@ -8,7 +8,5 @@ export default class HudScene extends Phaser.Scene {
         super(SCENE_NAMES.HudScene);
     }
 
-    create(context: IROContextCfg) {
-        console.log(SCENE_NAMES.HudScene, context);
-    }
+    create(context: IROContextCfg) {}
 }

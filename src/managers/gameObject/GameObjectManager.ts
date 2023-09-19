@@ -25,7 +25,6 @@ export class GameObjectManager {
             gameObject.onRemove();
 
             this.gameObjects.splice(index, 1);
-            console.log(this.gameObjects);
         };
 
         return gameObject;
