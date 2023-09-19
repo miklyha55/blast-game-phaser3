@@ -10,6 +10,7 @@ import { Assets } from '../configs/assets';
 import { ASSETS_NAME } from '../configs/assets/Assets';
 import { RenderManager } from '../managers/render/RenderManager';
 import { RENDER_GAME_LAYERS, RENDER_UI_LAYERS } from '../managers/render/constants';
+import { GameObjectManager } from '../managers/gameObject/GameObjectManager';
 
 export default class LoaderScene extends Phaser.Scene {
     constructor() {
@@ -31,6 +32,7 @@ export default class LoaderScene extends Phaser.Scene {
             jsonGame: this.cache.json.get(ASSETS_NAME.GameCfg),
             renderGameManager: new RenderManager(gameScene, RENDER_GAME_LAYERS),
             renderUiManager: new RenderManager(gameScene, RENDER_UI_LAYERS),
+            gameObjectManager: new GameObjectManager(),
         }
 
         this.scene.launch(SCENE_NAMES.GameScene, context);

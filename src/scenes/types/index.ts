@@ -1,3 +1,4 @@
+import { GameObjectManager } from "../../managers/gameObject/GameObjectManager";
 import { RenderManager } from "../../managers/render/RenderManager";
 import GameScene from "../GameScene";
 import HudScene from "../HudScene";
@@ -7,6 +8,7 @@ export interface IROContextCfg {
     readonly jsonGame: IROJsonGame;
     readonly renderGameManager: RenderManager;
     readonly renderUiManager: RenderManager;
+    readonly gameObjectManager: GameObjectManager;
 }
 
 export interface IROScenesCfg {
