@@ -10,7 +10,6 @@ export class inputCatcher {
     }
 
     setEvents() {
-        console.log('setEvents')
         this.container.setInteractive();
 
         this.container.on(Phaser.Input.Events.POINTER_DOWN, this.onPointerDown, this);
