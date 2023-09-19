@@ -1,10 +1,13 @@
 import * as Phaser from 'phaser';
+import { IROContextCfg } from '../scenes/types';
 
 export class inputCatcher {
-    private readonly container: Phaser.GameObjects.Container;
+    protected readonly container: Phaser.GameObjects.Container;
+    protected readonly context: IROContextCfg;
 
-    constructor(container: Phaser.GameObjects.Container) {
+    constructor(container: Phaser.GameObjects.Container, context: IROContextCfg) {
         this.container = container;
+        this.context = context;
     
         this.setEvents();
     }
