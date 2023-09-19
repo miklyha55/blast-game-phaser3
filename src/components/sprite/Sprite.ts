@@ -9,16 +9,18 @@ export class Sprite extends Component
     sprite: Phaser.GameObjects.Sprite;
 
     constructor(props: IROSpriteCfg) {
-        super(props, props.scene.add.container(0, 0));
+        super(props);
 
         this.sprite = props.scene.add.sprite(0, 0, props.texture);
         this.container.add(this.sprite);
-
-        this.setEvents();
     }
 
-    private setEvents() {
-        this.container.on(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture.bind(this));
+    override onCreate() {
+        this.container.on(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
+    }
+
+    override onRemove() {
+        this.container.off(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
     }
 
     private onSetTexture(key: string) {
