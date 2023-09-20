@@ -1,15 +1,15 @@
 import * as Phaser from 'phaser';
 
-import { inputCatcher } from "../inputCatcher";
-import { IROContextCfg } from '../../scenes/types';
-import { Cell } from '../../managers/grid/Cell';
+import { InputCatcher } from "../InputCatcher";
+import { IROContextCfg } from '../../../scenes/types';
+import { Cell } from '../../../managers/grid/Cell';
 
-export class CellCommand extends inputCatcher {
+export class CompareCommand extends InputCatcher {
     private isPressed: boolean;
     private cell: Cell;
 
     constructor(cell: Cell, context: IROContextCfg) {
-        super(cell.gameObject.container, context);
+        super(context.scenes.gameScene, context);
 
         this.cell = cell;
     }
