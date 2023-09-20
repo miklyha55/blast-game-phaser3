@@ -12,10 +12,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create(context: IROContextCfg) {
-        this.gridManager = new GridManager(context, {
-            col: 10,
-            row: 10,
-            size: 180,
-        })
+        this.gridManager = new GridManager(context, context.jsonGame.grid);
     }
 }

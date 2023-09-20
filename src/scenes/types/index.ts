@@ -1,4 +1,5 @@
 import { GameObjectManager } from "../../managers/gameObject/GameObjectManager";
+import { IROGridCfg } from "../../managers/grid/types";
 import { RenderManager } from "../../managers/render/RenderManager";
 import GameScene from "../GameScene";
 import HudScene from "../HudScene";
@@ -16,4 +17,7 @@ export interface IROScenesCfg {
     readonly hudScene: HudScene;
 }
 
-export interface IROJsonGame {}
+export interface IROJsonGame {
+    readonly minCompareCount: number,
+    readonly grid: IROGridCfg;
+}
