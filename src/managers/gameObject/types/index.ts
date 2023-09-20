@@ -10,3 +10,7 @@ export interface IROGameObjectCfg {
     readonly context: IROContextCfg;
     readonly renderLayer?: Phaser.GameObjects.Container;
 }
+
+export interface IROPrefabCfg {
+    readonly context: IROContextCfg;
+}
