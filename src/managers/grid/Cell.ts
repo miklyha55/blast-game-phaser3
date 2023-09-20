@@ -1,11 +1,11 @@
 import { Sprite } from '../../components/sprite/Sprite';
 import { ASSETS_NAME } from '../../configs/assets/Assets';
-import { CellCommand } from '../../inputs/commands/CellCommand';
 import { COMPONENT_EVENTS } from '../../components/core/events';
 import { Random } from '../../components/random/Random';
 import { IROCellCfg } from './types';
 import { GameObject } from '../gameObject/GameObject';
 import { IROContextCfg } from '../../scenes/types';
+import { CompareCommand } from '../../components/input/commands/CompareCommand';
 
 export class Cell {
     col: number;
@@ -13,7 +13,6 @@ export class Cell {
     color: string;
     gameObject: GameObject;
     context: IROContextCfg;
-    cellCommand: CellCommand;
 
     constructor(props: IROCellCfg) {
         this.gameObject = props.context.gameObjectManager.createGameObject(
@@ -29,7 +28,11 @@ export class Cell {
                     new Random({
                         name: "Random",
                         scene: props.context.scenes.gameScene,
-                    })
+                    }),
+                    new CompareCommand(
+                        this,
+                        props.context,
+                    ),
                 ],
                 context: props.context,
             }
@@ -50,9 +53,7 @@ export class Cell {
 
     private onCreate() {
         this.gameObject.container.on(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
-
         this.gameObject.container.emit(COMPONENT_EVENTS.ADD_RANDOM);
-        this.cellCommand = new CellCommand(this, this.context);
     }
 
     private onRemove() {
