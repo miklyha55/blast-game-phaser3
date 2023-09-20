@@ -25,16 +25,13 @@ export class GameObject {
         this.container = this.scene.add.container(0, 0);
 
         this.conponents.forEach(component => {
-            component.parent = this.container;
-
             if(component.container.list.length) {
                 this.container.add(component.container);
             }
             
-            component.onCreate();
+            this.constractComponent(component);
         });
 
-        this.container.setSize(this.container.getBounds().width, this.container.getBounds().height);
         this.renderLayer?.add(this.container);
     }
 
@@ -51,6 +48,28 @@ export class GameObject {
         return this.conponents?.find((component) => component.name === name);
     }
 
+    addComponent(component: Component) {
+        this.conponents.push(component);
+        this.constractComponent(component);
+    }
+
     remove() {}
     onRemove() {}
+
+    private constractComponent(component: Component) {
+        component.parent = this.container;
+
+        component.remove = () => {
+            component.onRemove();
+            component.container.destroy();
+
+            this.conponents.forEach((componentCompare, index) => {
+                if(componentCompare === component) {
+                    this.conponents.splice(index, 1);
+                }
+            })
+        }
+
+        component.onCreate();
+    }
 }

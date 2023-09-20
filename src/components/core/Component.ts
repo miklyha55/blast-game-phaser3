@@ -15,10 +15,7 @@ export class Component {
         this.container = props.scene.add.container(0, 0);
     }
 
-    remove() {
-        this.onRemove();
-        this.container.destroy();
-    }
+    remove() {}
 
     onRemove() {}
     onCreate() {}
