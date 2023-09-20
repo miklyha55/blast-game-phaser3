@@ -1,1 +1,9 @@
-{}
+{
+    "minCompareCount": 2,
+    "grid" : {
+        "col": 6,
+        "row": 7,
+        "size": 193,
+        "moveDelay": 200
+    }
+}
