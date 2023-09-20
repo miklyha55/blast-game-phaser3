@@ -19,5 +19,6 @@ export interface IROScenesCfg {
 
 export interface IROJsonGame {
     readonly minCompareCount: number,
+    readonly shuffleCount: number,
     readonly grid: IROGridCfg;
 }
