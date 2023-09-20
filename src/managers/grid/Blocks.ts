@@ -1,11 +1,9 @@
 import { Resize } from '../../components/resize/Resize';
-import { Sprite } from '../../components/sprite/Sprite';
-import { ASSETS_NAME } from '../../configs/assets/Assets';
 import { GameObject } from '../gameObject/GameObject';
 import { IROPrefabCfg } from '../gameObject/types';
 import { RENDER_LAYERS_NAME } from '../render/constants';
 
-export class Bg {
+export class Blocks {
     gameObject: GameObject;
 
     constructor(props: IROPrefabCfg) {
@@ -19,29 +17,20 @@ export class Bg {
 
         this.gameObject = props.context.gameObjectManager.createGameObject(
             {
-                name: "Bg",
+                name: "Blocks",
                 scene: props.context.scenes.gameScene,
                 conponents: [
-                    new Sprite({
-                        name: "Sprite",
-                        scene: props.context.scenes.gameScene,
-                        texture: ASSETS_NAME.Bg,
-                    }),
                     new Resize({
                         name: "Resize",
                         scene: props.context.scenes.gameScene,
                         position: {
-                            x: gameWidth / 2 + offsetX,
-                            y: gameHeidth / 2
-                        },
-                        scale: {
-                            x: 0.75,
-                            y: 0.8,
+                            x: (gameWidth / 2) - width / 2 + offsetX,
+                            y: (gameHeidth / 2) - (height + height / 2),
                         },
                     })
                 ],
                 context: props.context,
-                renderLayer: props.context.renderGameManager.getLayerByName(RENDER_LAYERS_NAME.Bg),
+                renderLayer: props.context.renderGameManager.getLayerByName(RENDER_LAYERS_NAME.Blocks),
             }
         )
     }

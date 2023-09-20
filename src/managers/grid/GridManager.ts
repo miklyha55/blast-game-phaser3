@@ -5,12 +5,11 @@ import { ICellVec2, IVec2 } from '../../utils/types';
 import { IROContextCfg } from '../../scenes/types';
 import { Cell } from './Cell';
 import { COMPONENT_EVENTS } from '../../components/core/events';
-import { RENDER_LAYERS_NAME } from '../render/constants';
 import { Bg } from './Bg';
+import { Blocks } from './Blocks';
 
 export class GridManager {
     cellsContainer: Phaser.GameObjects.Container;
-    bgContainer: Phaser.GameObjects.Container;
 
     private readonly props: IROGridCfg;
     private readonly context: IROContextCfg;
@@ -24,12 +23,9 @@ export class GridManager {
         this.context = context;
         this.cells = [];
 
-        console.log(props)
+        this.cellsContainer = new Blocks({ context: this.context }).gameObject.container;
+        new Bg({context: this.context}).gameObject.container;
 
-        this.cellsContainer = this.context.scenes.gameScene.add.container(0, 0);
-        this.bgContainer = this.context.scenes.gameScene.add.container(0, 0);
-
-        this.setPositions();
         this.createMask();
         this.createGrid();
     }
@@ -51,22 +47,6 @@ export class GridManager {
 
             this.toggleCellInput(true);
         }
-    }
-
-    private setPositions() {
-        console.log(this.props);
-        const { width: gameWidth, height: gameHeidth } = this.context.scenes.gameScene.sys.game.canvas;
-        const height: number = this.props.row * this.props.size;
-        const width: number = this.props.col * this.props.size;
-        const offsetX: number = -400;
-
-        const bg: Bg = new Bg({context: this.context});
-
-        this.cellsContainer.setPosition((gameWidth / 2) - width / 2 + offsetX, (gameHeidth / 2) - (height + height / 2));
-        this.bgContainer.setPosition((gameWidth / 2) + offsetX, this.cellsContainer.y + height + height / 2);
-        this.bgContainer.setScale(0.75, 0.8);
-        this.bgContainer.add(bg.gameObject.container);
-        this.context.renderGameManager.getLayerByName(RENDER_LAYERS_NAME.Bg)?.add(this.bgContainer);
     }
 
     private createMask() {
@@ -249,6 +229,5 @@ export class GridManager {
         }
         this.cellsContainer.add(cell.gameObject.container);
         cell.gameObject.container.setPosition(position.x, position.y);
-        this.context.renderGameManager.getLayerByName(RENDER_LAYERS_NAME.Blocks)?.add(this.cellsContainer);
     }
 }
