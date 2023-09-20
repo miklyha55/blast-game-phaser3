@@ -1,10 +1,11 @@
 import { IROContextCfg } from "../../../scenes/types";
-import { IROGameObjectCfg } from "../../gameObject/types";
+import { Cell } from "../Cell";
 
 export interface IROGridCfg {
     readonly col: number;
     readonly row: number;
     readonly size: number;
+    readonly moveDelay: number;
 }
 
 export interface IROCellCfg {
@@ -13,4 +14,13 @@ export interface IROCellCfg {
     readonly context: IROContextCfg;
     
     readonly color?: string;
+}
+
+export interface IROBgCfg {
+    readonly context: IROContextCfg;
+}
+
+export interface IROMoveCellCfg {
+    readonly step: number;
+    readonly cell: Cell;
 }

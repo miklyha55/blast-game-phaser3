@@ -1,5 +1,4 @@
 import { Sprite } from '../../components/sprite/Sprite';
-import { RENDER_LAYERS_NAME } from '../render/constants';
 import { ASSETS_NAME } from '../../configs/assets/Assets';
 import { CellCommand } from '../../inputs/commands/CellCommand';
 import { COMPONENT_EVENTS } from '../../components/core/events';
@@ -14,19 +13,18 @@ export class Cell {
     color: string;
     gameObject: GameObject;
     context: IROContextCfg;
+    cellCommand: CellCommand;
 
     constructor(props: IROCellCfg) {
         this.gameObject = props.context.gameObjectManager.createGameObject(
             {
                 name: "Cell",
                 scene: props.context.scenes.gameScene,
-                renderLayer: props.context.renderGameManager.getLayerByName(RENDER_LAYERS_NAME.Blocks),
                 conponents: [
                     new Sprite({
                         name: "Sprite",
                         scene: props.context.scenes.gameScene,
                         texture: ASSETS_NAME.BlueBlock,
-                        origin: {x: 0.5, y: 0.5},
                     }),
                     new Random({
                         name: "Random",
@@ -42,16 +40,19 @@ export class Cell {
         this.row = props.row;
 
         this.onCreate();
+
         this.gameObject.onRemove = () => {
             this.onRemove();
         }
     }
 
+    remove() {}
+
     private onCreate() {
         this.gameObject.container.on(COMPONENT_EVENTS.SET_TEXTURE, this.onSetTexture, this);
 
         this.gameObject.container.emit(COMPONENT_EVENTS.ADD_RANDOM);
-        new CellCommand(this, this.context);
+        this.cellCommand = new CellCommand(this, this.context);
     }
 
     private onRemove() {
