@@ -55,6 +55,7 @@ export class GridManager {
 
                 if(this.checkFinal() || !this.shuffleCount) {
                     this.pointsCount = 0;
+                    this.toggleCellInput(false);
                     console.log("lose");
                 }
             }
