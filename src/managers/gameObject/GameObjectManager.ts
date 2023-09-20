@@ -12,10 +12,9 @@ export class GameObjectManager {
         const gameObject: GameObject = new GameObject(props);
         
         this.gameObjects.push(gameObject);
+        gameObject.index = this.gameObjects.length - 1;
         
         gameObject.remove = () => {
-            const index: number = this.gameObjects.length - 1;
-
             gameObject.conponents?.forEach(component => {
                 component.remove();
             });
@@ -24,7 +23,11 @@ export class GameObjectManager {
             gameObject.container.destroy();
             gameObject.onRemove();
 
-            this.gameObjects.splice(index, 1);
+            this.gameObjects.forEach((gameObjectCompare, index) => {
+                if(gameObject === gameObjectCompare) {
+                    this.gameObjects.splice(index, 1);
+                }
+            });
         };
 
         return gameObject;

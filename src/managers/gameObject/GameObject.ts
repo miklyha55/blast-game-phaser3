@@ -11,7 +11,7 @@ export class GameObject {
     container: Phaser.GameObjects.Container;
 
     private scene: Phaser.Scene;
-    private renderLayer: Phaser.GameObjects.Container;
+    private renderLayer: Phaser.GameObjects.Container | null;
 
     protected context: IROContextCfg;
 
@@ -26,15 +26,16 @@ export class GameObject {
 
         this.conponents.forEach(component => {
             component.parent = this.container;
-            this.container.add(component.container);
+
+            if(component.container.list.length) {
+                this.container.add(component.container);
+            }
             
             component.onCreate();
         });
 
         this.container.setSize(this.container.getBounds().width, this.container.getBounds().height);
-
-        this.renderLayer.add(this.container);
-        this.onCreate();
+        this.renderLayer?.add(this.container);
     }
 
     removeComponentByName(name: string) {
@@ -52,5 +53,4 @@ export class GameObject {
 
     remove() {}
     onRemove() {}
-    onCreate() {}
 }
