@@ -7,6 +7,8 @@ import { Cell } from './Cell';
 import { COMPONENT_EVENTS } from '../../components/core/events';
 import { Bg } from './Bg';
 import { Blocks } from './Blocks';
+import { CompareCommand } from '../../components/input/commands/CompareCommand';
+import { Component } from '../../components/core/Component';
 
 export class GridManager {
     cellsContainer: Phaser.GameObjects.Container;
@@ -15,6 +17,8 @@ export class GridManager {
     private readonly context: IROContextCfg;
     private readonly cells: Cell[];
 
+    private shuffleCount: number;
+    private pointsCount: number;
     private compareCells: Cell[];
     private maskShape: Phaser.GameObjects.Graphics;
 
@@ -22,6 +26,8 @@ export class GridManager {
         this.props = props;
         this.context = context;
         this.cells = [];
+        this.shuffleCount = context.jsonGame.shuffleCount;
+        this.pointsCount = 0;
 
         this.cellsContainer = new Blocks({ context: this.context }).gameObject.container;
         new Bg({context: this.context}).gameObject.container;
@@ -33,6 +39,8 @@ export class GridManager {
     async compareCell(cell: Cell) {
         this.compareCells = [];
         this.loopCompare(cell);
+        this.pointsCount++;
+        console.log("points", this.pointsCount);
 
         if(this.compareCells.length > this.context.jsonGame.minCompareCount) {
             this.toggleCellInput(false);
@@ -43,6 +51,12 @@ export class GridManager {
 
             if(this.checkFinal()) {
                 this.shuffleCell();
+                this.shuffleCount--;
+
+                if(this.checkFinal() || !this.shuffleCount) {
+                    this.pointsCount = 0;
+                    console.log("lose");
+                }
             }
 
             this.toggleCellInput(true);
@@ -66,9 +80,11 @@ export class GridManager {
 
     private checkFinal(): boolean {
         let isFinal: boolean = true;
+        const screenCells: Cell[] =
+            this.cells.filter((cell) => cell.row >= this.context.jsonGame.grid.row);
 
-        for (let index = 0; index < this.cells.length; index++) {
-            const cell = this.cells[index];
+        for (let index = 0; index < screenCells.length; index++) {
+            const cell = screenCells[index];
 
             this.compareCells = [];
             this.loopCompare(cell);
@@ -83,10 +99,16 @@ export class GridManager {
     }
 
     private toggleCellInput(active: boolean) {
-        const foo: string = active ? "setEvents" : "removeEvents";
-
         this.cells.forEach(cell => {
-            cell.cellCommand[foo]();
+            if(active) {
+                const compareCommand: Component = new CompareCommand(
+                    cell,
+                    this.context,
+                ) 
+                cell.gameObject.addComponent(compareCommand);
+            } else {
+                cell.gameObject.getComponentByName("InpurCatcher").remove();
+            }
         });
     }
 
@@ -164,6 +186,9 @@ export class GridManager {
     }
 
     private loopCompare(cellCompare: Cell) {
+        const screenCells: Cell[] =
+            this.cells.filter((cell) => cell.row >= this.context.jsonGame.grid.row);
+
         if(this.compareCells.includes(cellCompare)) {
             return;
         }
@@ -171,13 +196,13 @@ export class GridManager {
         this.compareCells.push(cellCompare);
 
         const leftCell: Cell =
-            this.cells.find((cell) => cell.col === cellCompare.col - 1 && cell.row === cellCompare.row);
+            screenCells.find((cell) => cell.col === cellCompare.col - 1 && cell.row === cellCompare.row);
         const rightCell: Cell =
-            this.cells.find((cell) => cell.col === cellCompare.col + 1 && cell.row === cellCompare.row);
+            screenCells.find((cell) => cell.col === cellCompare.col + 1 && cell.row === cellCompare.row);
         const topCell: Cell =
-            this.cells.find((cell) => cell.col === cellCompare.col && cell.row === cellCompare.row - 1);
+            screenCells.find((cell) => cell.col === cellCompare.col && cell.row === cellCompare.row - 1);
         const bottomCell: Cell =
-            this.cells.find((cell) => cell.col === cellCompare.col && cell.row === cellCompare.row + 1);
+            screenCells.find((cell) => cell.col === cellCompare.col && cell.row === cellCompare.row + 1);
 
         if(leftCell != null && cellCompare.color === leftCell.color) {
             this.loopCompare(leftCell);
