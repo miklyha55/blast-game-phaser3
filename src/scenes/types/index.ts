@@ -22,6 +22,8 @@ export interface IROJsonGame {
     readonly shuffleCount: number,
     readonly movesCount: number,
     readonly winCount: number,
-    
+    readonly bombCount: number,
+    readonly bombRadius: number,
+
     readonly grid: IROGridCfg;
 }
