@@ -13,8 +13,6 @@ export class Blocks {
         const width: number =
             props.context.jsonGame.grid.col *  props.context.jsonGame.grid.size;
 
-        const offsetX: number = -400;
-
         this.gameObject = props.context.gameObjectManager.createGameObject(
             {
                 name: "Blocks",
@@ -24,7 +22,7 @@ export class Blocks {
                         name: "Resize",
                         scene: props.context.scenes.gameScene,
                         position: {
-                            x: (gameWidth / 2) - width / 2 + offsetX,
+                            x: (gameWidth / 2) - width / 2 - 400,
                             y: (gameHeidth / 2) - (height + height / 2),
                         },
                     })
