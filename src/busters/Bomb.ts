@@ -27,7 +27,7 @@ export class Bomb {
         this.gridManager.toggleCellInput(true);
     }
 
-    setBomb() {
+    setBombCommand() {
         if(!this.bombCount) {
             return;
         }
@@ -64,8 +64,8 @@ export class Bomb {
                 this.gridManager.cells.forEach((cellFind) => {
                     if(
                         cellFind &&
-                        cellFind.col === Math.round(cell.col + radius * Math.cos(radian)) &&
-                        cellFind.row === Math.round(cell.row + radius * Math.sin(radian))
+                        cellFind.col === Math.round(cell.col + (i + 1) * Math.cos(radian)) &&
+                        cellFind.row === Math.round(cell.row + (i + 1) * Math.sin(radian))
                     ) {
                         removeCells.push(cellFind);
                     }
