@@ -3,6 +3,8 @@
     "shuffleCount": 3,
     "movesCount": 8,
     "winCount": 30,
+    "bombCount": 3,
+    "bombRadius": 1,
 
     "grid" : {
         "col": 6,
