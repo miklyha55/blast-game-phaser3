@@ -27,10 +27,6 @@ export class ButtonReset {
                             x: 0,
                             y: 400,
                         },
-                        scale: {
-                            x: 1,
-                            y: 1,
-                        }
                     }),
                     new Text({
                         name: "Text",

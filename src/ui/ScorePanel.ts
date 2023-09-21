@@ -10,7 +10,8 @@ export class ScorePanel {
     gameObject: GameObject;
 
     constructor(props: IROPrefabCfg) {
-        const { width: gameWidth, height: gameHeidth } = props.context.scenes.gameScene.sys.game.canvas;
+        const { width: gameWidth, height: gameHeidth }
+            = props.context.scenes.gameScene.sys.game.canvas;
 
         this.gameObject = props.context.gameObjectManager.createGameObject(
             {
@@ -66,7 +67,7 @@ export class ScorePanel {
                     })
                 ],
                 context: props.context,
-                renderLayer: props.context.renderUiManager.getLayerByName(RENDER_LAYERS_NAME.ScorePanel),
+                renderLayer: props.context.renderUiManager.getLayerByName(RENDER_LAYERS_NAME.GameUi),
             }
         )
     }

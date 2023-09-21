@@ -11,7 +11,8 @@ export class CompletePopup {
     gameObject: GameObject;
 
     constructor(props: IROPrefabCfg) {
-        const { width: gameWidth, height: gameHeidth } = props.context.scenes.gameScene.sys.game.canvas;
+        const { width: gameWidth, height: gameHeidth }
+            = props.context.scenes.gameScene.sys.game.canvas;
 
         this.gameObject = props.context.gameObjectManager.createGameObject(
             {
@@ -61,7 +62,7 @@ export class CompletePopup {
                     }),
                 ],
                 context: props.context,
-                renderLayer: props.context.renderUiManager.getLayerByName(RENDER_LAYERS_NAME.CompletePopup),
+                renderLayer: props.context.renderUiManager.getLayerByName(RENDER_LAYERS_NAME.CompleteUi),
             }
         )
     }
