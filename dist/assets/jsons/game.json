@@ -1,10 +1,10 @@
 {
     "minCompareCount": 2,
     "shuffleCount": 3,
-    "movesCount": 8,
-    "winCount": 30,
+    "movesCount": 6,
+    "winCount": 25,
     "bombCount": 3,
-    "bombRadius": 1,
+    "bombRadius": 2,
 
     "grid" : {
         "col": 6,
