@@ -9,6 +9,7 @@ import { Bg } from './Bg';
 import { Blocks } from './Blocks';
 import { CompareCommand } from '../../components/input/commands/CompareCommand';
 import { Component } from '../../components/core/Component';
+import { Text } from '../../components/text/Text';
 
 export class GridManager {
     cellsContainer: Phaser.GameObjects.Container;
@@ -19,15 +20,21 @@ export class GridManager {
 
     private shuffleCount: number;
     private pointsCount: number;
+    private movesCount: number;
+    private winCount: number;
     private compareCells: Cell[];
     private maskShape: Phaser.GameObjects.Graphics;
+    private isComplete: boolean;
 
     constructor(context: IROContextCfg, props: IROGridCfg) {
         this.props = props;
         this.context = context;
         this.cells = [];
         this.shuffleCount = context.jsonGame.shuffleCount;
+        this.movesCount = context.jsonGame.movesCount;
+        this.winCount = context.jsonGame.winCount;
         this.pointsCount = 0;
+        this.isComplete = false;
 
         this.cellsContainer = new Blocks({ context: this.context }).gameObject.container;
         new Bg({context: this.context}).gameObject.container;
@@ -39,12 +46,14 @@ export class GridManager {
     async compareCell(cell: Cell) {
         this.compareCells = [];
         this.loopCompare(cell);
-        this.pointsCount++;
-        console.log("points", this.pointsCount);
 
         if(this.compareCells.length > this.context.jsonGame.minCompareCount) {
-            this.toggleCellInput(false);
+            this.movesCount--;
 
+            this.pointsCount += this.compareCells.length;
+            this.uiDataUpdate();
+
+            this.toggleCellInput(false);
             this.removeCompare();
             await this.moveCell();
             this.fillGrid();
@@ -54,20 +63,79 @@ export class GridManager {
                 this.shuffleCount--;
 
                 if(this.checkFinal() || !this.shuffleCount) {
-                    this.pointsCount = 0;
-                    this.toggleCellInput(false);
-                    console.log("lose");
+                    this.lose();
                 }
             }
 
             this.toggleCellInput(true);
+
+            if(this.pointsCount >= this.winCount) {
+                this.isComplete = true;
+                this.win();
+            }
+    
+            if(this.movesCount === 0 && !this.isComplete) {
+                this.lose();
+            }
         }
+    }
+
+    reset() {
+        this.shuffleCell();
+        this.toggleCellInput(true);
+
+        this.context.scenes.hudScene.
+            completePopup.gameObject.getComponentByName("WinTitle").container.alpha = 1;
+        this.context.scenes.hudScene.
+            completePopup.gameObject.getComponentByName("LoseTitle").container.alpha = 1;
+
+        this.isComplete = false;
+        this.pointsCount = 0;
+        this.shuffleCount = this.context.jsonGame.shuffleCount;
+        this.movesCount = this.context.jsonGame.movesCount;
+
+        this.uiDataUpdate();
+    }
+
+    private uiDataUpdate() {
+        const pointsText: Text =
+            this.context.scenes.hudScene
+                .scorePanel.gameObject.getComponentByName("Points") as Text;
+        const movesText: Text =
+            this.context.scenes.hudScene
+                .scorePanel.gameObject.getComponentByName("Moves") as Text;
+
+        movesText.setText(this.movesCount + "");
+        pointsText.setText(this.pointsCount + "");
+    }
+
+    private lose() {
+        this.toggleCellInput(false);
+
+        this.context.scenes.hudScene.
+            completePopup.gameObject.container.emit(COMPONENT_EVENTS.TOGGLE_ACTIVE, true);
+        this.context.scenes.hudScene.
+            completePopup.gameObject.getComponentByName("WinTitle").container.alpha = 0;
+    }
+
+    private win() {
+        this.toggleCellInput(false);
+
+        this.context.scenes.hudScene.
+            completePopup.gameObject.container.emit(COMPONENT_EVENTS.TOGGLE_ACTIVE, true);
+        this.context.scenes.hudScene.
+            completePopup.gameObject.getComponentByName("LoseTitle").container.alpha = 0;
     }
 
     private createMask() {
         this.maskShape = this.context.scenes.gameScene.make.graphics();
         this.maskShape.fillStyle(0xffffff, 1);
-        this.maskShape.fillRect(this.cellsContainer.x, this.cellsContainer.y + this.props.row * this.props.size, this.props.col * this.props.size, this.props.row * this.props.size);
+        this.maskShape.fillRect(
+            this.cellsContainer.x,
+            this.cellsContainer.y + this.props.row * this.props.size,
+            this.props.col * this.props.size,
+            this.props.row * this.props.size
+        );
         const mask: Phaser.Display.Masks.GeometryMask = this.maskShape.createGeometryMask();
 
         this.cellsContainer.mask = mask;
@@ -108,7 +176,7 @@ export class GridManager {
                 ) 
                 cell.gameObject.addComponent(compareCommand);
             } else {
-                cell.gameObject.getComponentByName("InpurCatcher").remove();
+                cell.gameObject.getComponentByName("InpurCatcher")?.remove();
             }
         });
     }
