@@ -1,6 +1,9 @@
 {
     "minCompareCount": 2,
     "shuffleCount": 3,
+    "movesCount": 8,
+    "winCount": 30,
+
     "grid" : {
         "col": 6,
         "row": 7,
