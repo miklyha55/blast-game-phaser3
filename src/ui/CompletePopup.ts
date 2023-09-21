@@ -45,6 +45,10 @@ export class CompletePopup {
                             x: 0,
                             y: -300,
                         },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
                     }),
                     new Text({
                         name: "WinTitle",
@@ -54,6 +58,10 @@ export class CompletePopup {
                         position: {
                             x: 0,
                             y: -300,
+                        },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
                         },
                     }),
                     new Toggle({

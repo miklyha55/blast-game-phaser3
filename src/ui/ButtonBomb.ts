@@ -50,6 +50,10 @@ export class ButtonBomb {
                             x: 0,
                             y: 110,
                         },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
                     }),
                     new ButtonBombCommand(props.context),
                 ],

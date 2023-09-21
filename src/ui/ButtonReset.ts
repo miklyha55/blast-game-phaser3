@@ -41,6 +41,10 @@ export class ButtonReset {
                             x: 0,
                             y: 0,
                         },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
                     }),
                     new ButtonResetCommand(props.context),
                 ],
