@@ -1,8 +1,8 @@
 {
     "minCompareCount": 2,
     "shuffleCount": 3,
-    "movesCount": 6,
-    "winCount": 25,
+    "movesCount": 24,
+    "winCount": 100,
     "bombCount": 3,
     "bombRadius": 2,
 
