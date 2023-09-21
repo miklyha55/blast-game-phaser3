@@ -10,21 +10,20 @@ export class InputCatcher extends Component {
             name: "InpurCatcher",
             scene,
         })
+
         this.context = context;
     }
 
     override onCreate() {
         this.parent.setSize(this.parent.getBounds().width, this.parent.getBounds().height);
         this.parent.setInteractive();
-
+        
         this.parent.on(Phaser.Input.Events.POINTER_DOWN, this.onPointerDown, this);
         this.parent.on(Phaser.Input.Events.POINTER_UP , this.onPointerUp, this);
         this.parent.on(Phaser.Input.Events.POINTER_MOVE , this.onPointerMove, this);
     }
 
     override onRemove() {
-        this.parent.removeInteractive();
-
         this.parent.off(Phaser.Input.Events.POINTER_DOWN, this.onPointerDown, this);
         this.parent.off(Phaser.Input.Events.POINTER_UP , this.onPointerUp, this);
         this.parent.off(Phaser.Input.Events.POINTER_MOVE , this.onPointerMove, this);
