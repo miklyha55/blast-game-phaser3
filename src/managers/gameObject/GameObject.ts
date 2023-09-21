@@ -48,6 +48,10 @@ export class GameObject {
         return this.conponents?.find((component) => component.name === name);
     }
 
+    getComponentsByName(name: string): Component[] {
+        return this.conponents?.filter((component) => component.name === name);
+    }
+
     addComponent(component: Component) {
         this.conponents.push(component);
         this.constractComponent(component);
