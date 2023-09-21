@@ -5,4 +5,5 @@ export interface IROTextCfg extends IROComponentCfg {
     readonly text: string;
     readonly size: number;
     readonly position: IVec2;
+    readonly origin: IVec2;
 }

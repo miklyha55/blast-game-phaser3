@@ -11,7 +11,7 @@ export class Text extends Component
         super(props);
 
         this.text = props.scene.add.text(props.position.x, props.position.y, props.text);
-        this.text.setOrigin(0.5, 0.5);
+        this.text.setOrigin(props.origin.y, props.origin.y);
         this.text.setFontSize(props.size);
 
         this.container.add(this.text);
