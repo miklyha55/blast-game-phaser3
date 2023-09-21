@@ -27,12 +27,16 @@ export class ButtonReset {
                             x: 0,
                             y: 400,
                         },
+                        scale: {
+                            x: 2,
+                            y: 2,
+                        }
                     }),
                     new Text({
                         name: "Text",
                         scene: props.context.scenes.hudScene,
                         text: "Заново",
-                        size: 90,
+                        size: 70,
                         position: {
                             x: 0,
                             y: 0,

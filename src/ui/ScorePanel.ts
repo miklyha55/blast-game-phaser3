@@ -48,7 +48,7 @@ export class ScorePanel {
                     new Text({
                         name: "Title",
                         scene: props.context.scenes.hudScene,
-                        text: "Oчки: ",
+                        text: "Oчки:",
                         size: 130,
                         position: {
                             x: 0,
