@@ -13,6 +13,7 @@ export class Sprite extends Component
 
         this.sprite = props.scene.add.sprite(0, 0, props.texture);
         props.origin && this.sprite.setOrigin(props.origin.x, props.origin.y);
+        props.position && this.sprite.setPosition(props.position.x, props.position.y);
 
         this.container.add(this.sprite);
     }
