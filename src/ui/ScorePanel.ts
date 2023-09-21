@@ -39,20 +39,28 @@ export class ScorePanel {
                         name: "Moves",
                         scene: props.context.scenes.hudScene,
                         text: props.context.jsonGame.movesCount  + "",
-                        size: 400,
+                        size: 300,
                         position: {
                             x: 0,
                             y: -190,
                         },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
                     }),
                     new Text({
-                        name: "Title",
+                        name: "TitlePoints",
                         scene: props.context.scenes.hudScene,
-                        text: "Oчки:",
+                        text: "Oчки",
                         size: 130,
                         position: {
-                            x: 0,
+                            x: -180,
                             y: 180,
+                        },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
                         },
                     }),
                     new Text({
@@ -61,10 +69,42 @@ export class ScorePanel {
                         text: "0",
                         size: 150,
                         position: {
-                            x: 0,
+                            x: -180,
                             y: 320,
                         },
-                    })
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    }),
+                    new Text({
+                        name: "TitleTarget",
+                        scene: props.context.scenes.hudScene,
+                        text: "Цель",
+                        size: 130,
+                        position: {
+                            x: 180,
+                            y: 180,
+                        },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    }),
+                    new Text({
+                        name: "Target",
+                        scene: props.context.scenes.hudScene,
+                        text: props.context.jsonGame.winCount + "",
+                        size: 150,
+                        position: {
+                            x: 180,
+                            y: 320,
+                        },
+                        origin: {
+                            x: 0.5,
+                            y: 0.5,
+                        },
+                    }),
                 ],
                 context: props.context,
                 renderLayer: props.context.renderUiManager.getLayerByName(RENDER_LAYERS_NAME.GameUi),
