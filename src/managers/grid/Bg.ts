@@ -9,7 +9,8 @@ export class Bg {
     gameObject: GameObject;
 
     constructor(props: IROPrefabCfg) {
-        const { width: gameWidth, height: gameHeidth } = props.context.scenes.gameScene.sys.game.canvas;
+        const { width: gameWidth, height: gameHeidth }
+            = props.context.scenes.gameScene.sys.game.canvas;
         const height: number =
             props.context.jsonGame.grid.row *  props.context.jsonGame.grid.size;
         const width: number =
