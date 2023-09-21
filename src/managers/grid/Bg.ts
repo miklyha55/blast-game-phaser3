@@ -15,8 +15,6 @@ export class Bg {
         const width: number =
             props.context.jsonGame.grid.col *  props.context.jsonGame.grid.size;
 
-        const offsetX: number = -400;
-
         this.gameObject = props.context.gameObjectManager.createGameObject(
             {
                 name: "Bg",
@@ -31,7 +29,7 @@ export class Bg {
                         name: "Resize",
                         scene: props.context.scenes.gameScene,
                         position: {
-                            x: gameWidth / 2 + offsetX,
+                            x: gameWidth / 2 - 400,
                             y: gameHeidth / 2
                         },
                         scale: {
