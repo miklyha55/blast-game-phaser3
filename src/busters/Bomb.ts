@@ -53,6 +53,7 @@ export class Bomb {
         const radius: number = this.context.jsonGame.bombRadius;
 
         removeCells.push(cell);
+        this.context.scenes.gameScene.cameras.main.shake(30, 0.02);
           
         for (let i = 0; i < radius; i++) {
             const delta: number = (i + 1) * directionCount;
