@@ -10,13 +10,15 @@ import { Blocks } from './Blocks';
 import { CompareCommand } from '../../components/input/commands/CompareCommand';
 import { Component } from '../../components/core/Component';
 import { Text } from '../../components/text/Text';
+import { Bomb } from '../../busters/Bomb';
 
 export class GridManager {
     cellsContainer: Phaser.GameObjects.Container;
+    bombBuster: Bomb;
+    cells: Cell[];
 
     private readonly props: IROGridCfg;
     private readonly context: IROContextCfg;
-    private readonly cells: Cell[];
 
     private shuffleCount: number;
     private pointsCount: number;
@@ -39,11 +41,13 @@ export class GridManager {
         this.cellsContainer = new Blocks({ context: this.context }).gameObject.container;
         new Bg({context: this.context}).gameObject.container;
 
+        this.bombBuster = new Bomb(this.context, this);
+
         this.createMask();
         this.createGrid();
     }
 
-    async compareCell(cell: Cell) {
+    compareCell(cell: Cell) {
         this.compareCells = [];
         this.loopCompare(cell);
 
@@ -55,29 +59,13 @@ export class GridManager {
 
             this.toggleCellInput(false);
             this.removeCompare();
-            await this.moveCell();
-            this.fillGrid();
-
-            if(this.checkFinal()) {
-                this.shuffleCell();
-                this.shuffleCount--;
-
-                if(this.checkFinal() || !this.shuffleCount) {
-                    this.lose();
-                }
-            }
-
-            this.toggleCellInput(true);
-
-            if(this.pointsCount >= this.winCount) {
-                this.isComplete = true;
-                this.win();
-            }
-    
-            if(this.movesCount === 0 && !this.isComplete) {
-                this.lose();
-            }
+            this.updateCell();
         }
+    }
+
+    setPoints(points: number) {
+        this.pointsCount += points;
+        this.uiDataUpdate();
     }
 
     reset() {
@@ -93,8 +81,50 @@ export class GridManager {
         this.pointsCount = 0;
         this.shuffleCount = this.context.jsonGame.shuffleCount;
         this.movesCount = this.context.jsonGame.movesCount;
-
+        this.bombBuster.reset();
+        
         this.uiDataUpdate();
+    }
+
+    toggleCellInput(active: boolean) {
+        this.cells.forEach(cell => {
+            if(active) {
+                const compareCommand: Component = new CompareCommand(
+                    cell,
+                    this.context,
+                ) 
+                cell.gameObject.addComponent(compareCommand);
+            } else {
+                cell.gameObject.getComponentsByName("InpurCatcher").forEach((component) => {
+                    component.remove();
+                })
+            }
+        });
+    }
+
+    async updateCell() {
+        await this.moveCell();
+        this.fillGrid();
+
+        if(this.checkFinal()) {
+            this.shuffleCell();
+            this.shuffleCount--;
+
+            if(this.checkFinal() || !this.shuffleCount) {
+                this.lose();
+            }
+        }
+
+        this.toggleCellInput(true);
+
+        if(this.pointsCount >= this.winCount) {
+            this.isComplete = true;
+            this.win();
+        }
+
+        if(this.movesCount === 0 && !this.isComplete) {
+            this.lose();
+        }
     }
 
     private uiDataUpdate() {
@@ -165,20 +195,6 @@ export class GridManager {
         }
 
         return isFinal;
-    }
-
-    private toggleCellInput(active: boolean) {
-        this.cells.forEach(cell => {
-            if(active) {
-                const compareCommand: Component = new CompareCommand(
-                    cell,
-                    this.context,
-                ) 
-                cell.gameObject.addComponent(compareCommand);
-            } else {
-                cell.gameObject.getComponentByName("InpurCatcher")?.remove();
-            }
-        });
     }
 
     private fillGrid() {
