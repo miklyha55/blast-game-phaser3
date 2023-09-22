@@ -7,7 +7,7 @@ import { RESOLUTION } from './constants';
 import LoaderScene from '../scenes/LoaderScene';
 
 const config: Phaser.Types.Core.GameConfig = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     width: RESOLUTION.width,
     height: RESOLUTION.height,
     scene: [
