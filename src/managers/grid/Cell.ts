@@ -6,6 +6,7 @@ import { IROCellCfg } from './types';
 import { GameObject } from '../gameObject/GameObject';
 import { IROContextCfg } from '../../scenes/types';
 import { CompareCommand } from '../../components/input/commands/CompareCommand';
+import { CompareEffect } from '../../components/compareEffect/compareEffect';
 
 export class Cell {
     col: number;
@@ -33,6 +34,10 @@ export class Cell {
                         this,
                         props.context,
                     ),
+                    new CompareEffect({
+                        name: "CompareEffect",
+                        scene: props.context.scenes.gameScene,
+                    })
                 ],
                 context: props.context,
             }

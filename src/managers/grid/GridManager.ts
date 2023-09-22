@@ -11,6 +11,7 @@ import { CompareCommand } from '../../components/input/commands/CompareCommand';
 import { Component } from '../../components/core/Component';
 import { Text } from '../../components/text/Text';
 import { Bomb } from '../../busters/Bomb';
+import { CompareEffect } from '../../components/compareEffect/compareEffect';
 
 export class GridManager {
     cellsContainer: Phaser.GameObjects.Container;
@@ -47,7 +48,7 @@ export class GridManager {
         this.createGrid();
     }
 
-    compareCell(cell: Cell) {
+    async compareCell(cell: Cell) {
         this.compareCells = [];
         this.loopCompare(cell);
 
@@ -58,7 +59,7 @@ export class GridManager {
             this.uiDataUpdate();
 
             this.toggleCellInput(false);
-            this.removeCompare();
+            await this.removeCompare();
             this.updateCell();
         }
     }
@@ -264,9 +265,23 @@ export class GridManager {
         });
     }
 
-    private removeCompare() {
-        this.compareCells.forEach(cell => {
-            cell.remove();
+    private async removeCompare() {
+        return new Promise<void>((resolve) => {
+            const propmises: Promise<void>[] = [];
+
+            this.compareCells.forEach(async (cell) => {
+                const compareEffect: CompareEffect
+                    = cell.gameObject.getComponentByName("CompareEffect") as CompareEffect;
+                const promise: Promise<void> = compareEffect?.start();
+
+                promise && propmises.push(promise);
+                await promise;
+                cell.remove();
+            });
+
+            Promise.all([...propmises]).then(() => {
+                resolve();
+            });
         });
     }
 
