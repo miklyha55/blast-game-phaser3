@@ -6,6 +6,7 @@ export const enum ASSETS_NAME {
     PanelBuster = "panelBuster",
     PanelScore = "panelScore",
     IconBomb = "iconBomb",
+    IconTeleport = "IconTeleport",
     BlueBlock = "blue",
     GreenBlock = "green",
     PinkBlock = "pink",
@@ -42,6 +43,11 @@ export const Assets: ReadonlyArray<IROResourceCfg> = [
     {
         name: ASSETS_NAME.IconBomb,
         path: "assets/images/ui/icons/icon_bomb.png",
+        type: "image",
+    },
+    {
+        name: ASSETS_NAME.IconTeleport,
+        path: "assets/images/ui/icons/icon_teleport.png",
         type: "image",
     },
     {

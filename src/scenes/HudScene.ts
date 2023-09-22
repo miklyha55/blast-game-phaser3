@@ -7,11 +7,13 @@ import { ButtonReset } from '../ui/ButtonReset';
 import { CompletePopup } from '../ui/CompletePopup';
 import { COMPONENT_EVENTS } from '../components/core/events';
 import { ButtonBomb } from '../ui/ButtonBomb';
+import { ButtonTeleport } from '../ui/ButtonTeleport';
 
 export default class HudScene extends Phaser.Scene {
     scorePanel: ScorePanel;
     completePopup: CompletePopup;
     buttonBomb: ButtonBomb;
+    buttonTeleport: ButtonTeleport;
 
     constructor() {
         super(SCENE_NAMES.HudScene);
@@ -27,5 +29,6 @@ export default class HudScene extends Phaser.Scene {
         this.completePopup.gameObject.container.add(buttonReset.gameObject.container);
 
         this.buttonBomb = new ButtonBomb({context});
+        this.buttonTeleport = new ButtonTeleport({context});
     }
 }

@@ -5,6 +5,7 @@
     "winCount": 100,
     "bombCount": 3,
     "bombRadius": 2,
+    "teleportCount": 3,
 
     "grid" : {
         "col": 6,

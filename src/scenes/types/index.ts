@@ -24,6 +24,7 @@ export interface IROJsonGame {
     readonly winCount: number,
     readonly bombCount: number,
     readonly bombRadius: number,
+    readonly teleportCount: number,
 
     readonly grid: IROGridCfg;
 }
