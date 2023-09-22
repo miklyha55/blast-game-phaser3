@@ -60,7 +60,7 @@ export class Bomb {
         this.uiDataUpdate();
     }
 
-    boom(cell: Cell) {
+    async boom(cell: Cell) {
         this.isActive = false;
 
         const removeCells: Cell[] = [];
@@ -80,6 +80,7 @@ export class Bomb {
                 this.gridManager.cells.forEach((cellFind) => {
                     if(
                         cellFind &&
+                        cellFind.row >= this.context.jsonGame.grid.row &&
                         cellFind.col === Math.round(cell.col + (i + 1) * Math.cos(radian)) &&
                         cellFind.row === Math.round(cell.row + (i + 1) * Math.sin(radian))
                     ) {
@@ -94,7 +95,7 @@ export class Bomb {
         });
 
         this.gridManager.setPoints(removeCells.length);
-        this.gridManager.updateCell();
+        await this.gridManager.updateCell();
 
         this.context.scenes.hudScene.buttonBomb.gameObject.container.alpha = !this.count ? 0.5 : 1;
         this.gridManager.toggleCellInput(false);
