@@ -13,7 +13,7 @@ export class ButtonBombCommand extends InputCatcher {
     override onPointerDown(pointer: Phaser.Input.Pointer) {
         this.isPressed = true;
 
-        this.context.scenes.gameScene.gridManager.bombBuster.setBombCommand();
+        this.context.scenes.gameScene.gridManager.bombBuster.setCommand();
     }
 
     override onPointerUp(pointer: Phaser.Input.Pointer) {

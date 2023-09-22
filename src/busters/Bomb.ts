@@ -9,17 +9,17 @@ export class Bomb {
     private readonly gridManager: GridManager;
     private readonly context: IROContextCfg;
 
-    private bombCount: number;
+    private count: number;
 
     constructor(context: IROContextCfg, gridManager: GridManager) {
         this.gridManager = gridManager;
         this.context = context;
 
-        this.bombCount = this.context.jsonGame.bombCount;
+        this.count = this.context.jsonGame.bombCount;
     }
 
     reset() {
-        this.bombCount = this.context.jsonGame.bombCount;
+        this.count = this.context.jsonGame.bombCount;
         this.uiDataUpdate();
 
         this.context.scenes.hudScene.buttonBomb.gameObject.container.alpha = 1;
@@ -27,8 +27,8 @@ export class Bomb {
         this.gridManager.toggleCellInput(true);
     }
 
-    setBombCommand() {
-        if(!this.bombCount) {
+    setCommand() {
+        if(!this.count) {
             return;
         }
 
@@ -43,7 +43,7 @@ export class Bomb {
             cell.gameObject.addComponent(bombCommand);
         });
 
-        this.bombCount--;
+        this.count--;
         this.uiDataUpdate();
     }
 
@@ -91,6 +91,6 @@ export class Bomb {
             this.context.scenes.hudScene
                 .buttonBomb.gameObject.getComponentByName("Points") as Text;
 
-        pointText.setText(this.bombCount + "");
+        pointText.setText(this.count + "");
     }
 }

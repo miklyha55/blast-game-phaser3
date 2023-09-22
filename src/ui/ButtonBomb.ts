@@ -37,7 +37,7 @@ export class ButtonBomb {
                         name: "Resize",
                         scene: props.context.scenes.hudScene,
                         position: {
-                            x: gameWidth / 2 + 650,
+                            x: gameWidth / 2 + 850,
                             y: gameHeidth / 2 + 400,
                         },
                     }),
