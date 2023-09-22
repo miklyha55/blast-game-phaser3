@@ -13,6 +13,7 @@ export class Teleport {
 
     private count: number;
     private teleportCells: Cell[];
+    private isActive: boolean;
 
     constructor(context: IROContextCfg, gridManager: GridManager) {
         this.gridManager = gridManager;
@@ -20,6 +21,7 @@ export class Teleport {
 
         this.teleportCells = [];
         this.count = this.context.jsonGame.teleportCount;
+        this.isActive = false;
     }
 
     reset() {
@@ -35,6 +37,17 @@ export class Teleport {
         if(!this.count) {
             return;
         }
+
+        if(this.isActive) {
+            this.count++;
+            this.uiDataUpdate();
+
+            this.isActive = false;
+            this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = 1;
+            return;
+        }
+
+        this.isActive = true;
 
         this.gridManager.toggleCellInput(false);
         this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = 0.5;
@@ -52,6 +65,8 @@ export class Teleport {
     }
 
     async teleport(cell: Cell) {
+        this.isActive = false;
+
         this.teleportCells.push(cell);
 
         if(this.teleportCells.length < 2) {
@@ -82,7 +97,7 @@ export class Teleport {
             .emit(COMPONENT_EVENTS.SET_TEXTURE, firstColor);
 
         this.teleportCells = [];
-        this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = 1;
+        this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = !this.count ? 0.5 : 1;
         this.gridManager.toggleCellInput(false);
         this.gridManager.toggleCellInput(true);
     }

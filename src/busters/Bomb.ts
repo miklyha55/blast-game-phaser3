@@ -10,12 +10,14 @@ export class Bomb {
     private readonly context: IROContextCfg;
 
     private count: number;
+    private isActive: boolean;
 
     constructor(context: IROContextCfg, gridManager: GridManager) {
         this.gridManager = gridManager;
         this.context = context;
 
         this.count = this.context.jsonGame.bombCount;
+        this.isActive = false;
     }
 
     reset() {
@@ -31,6 +33,17 @@ export class Bomb {
         if(!this.count) {
             return;
         }
+
+        if(this.isActive) {
+            this.count++;
+            this.uiDataUpdate();
+
+            this.isActive = false;
+            this.context.scenes.hudScene.buttonBomb.gameObject.container.alpha = 1;
+            return;
+        }
+
+        this.isActive = true;
 
         this.gridManager.toggleCellInput(false);
         this.context.scenes.hudScene.buttonBomb.gameObject.container.alpha = 0.5;
@@ -48,6 +61,8 @@ export class Bomb {
     }
 
     boom(cell: Cell) {
+        this.isActive = false;
+
         const removeCells: Cell[] = [];
         const directionCount: number = 8;
         const radius: number = this.context.jsonGame.bombRadius;
@@ -81,7 +96,7 @@ export class Bomb {
         this.gridManager.setPoints(removeCells.length);
         this.gridManager.updateCell();
 
-        this.context.scenes.hudScene.buttonBomb.gameObject.container.alpha = 1;
+        this.context.scenes.hudScene.buttonBomb.gameObject.container.alpha = !this.count ? 0.5 : 1;
         this.gridManager.toggleCellInput(false);
         this.gridManager.toggleCellInput(true);
     }
