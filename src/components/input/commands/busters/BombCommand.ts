@@ -1,19 +1,19 @@
 import * as Phaser from 'phaser';
 
-import { InputCatcher } from "../InputCatcher";
-import { IROContextCfg } from '../../../scenes/types';
+import { IROBusterCommandCfg } from '../../../../busters/core/types';
+import { BusterCommand } from './core/BusterCommand';
 
-export class ButtonTeleportCommand extends InputCatcher {
+export class BombCommand extends BusterCommand {
     private isPressed: boolean;
 
-    constructor(context: IROContextCfg) {
-        super(context.scenes.gameScene, context);
+    constructor(props: IROBusterCommandCfg) {
+        super(props);
     }
 
     override onPointerDown(pointer: Phaser.Input.Pointer) {
         this.isPressed = true;
 
-        this.context.scenes.gameScene.gridManager.teleportBuster.setCommand();
+        this.context.scenes.hudScene.bombBuster.boom(this.cell);
     }
 
     override onPointerUp(pointer: Phaser.Input.Pointer) {

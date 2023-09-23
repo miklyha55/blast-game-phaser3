@@ -6,7 +6,7 @@ import { IROCellCfg } from './types';
 import { GameObject } from '../gameObject/GameObject';
 import { IROContextCfg } from '../../scenes/types';
 import { CompareCommand } from '../../components/input/commands/CompareCommand';
-import { CompareEffect } from '../../components/compareEffect/compareEffect';
+import { CompareEffect } from '../../components/compareEffect/CompareEffect';
 
 export class Cell {
     col: number;

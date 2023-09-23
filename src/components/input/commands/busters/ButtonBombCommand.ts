@@ -1,23 +1,20 @@
 import * as Phaser from 'phaser';
 
-import { InputCatcher } from "../InputCatcher";
-import { IROContextCfg } from '../../../scenes/types';
-import { Cell } from '../../../managers/grid/Cell';
+import { InputCatcher } from "../../InputCatcher";
+import { IROContextCfg } from '../../../../scenes/types';
+import { BombCommand } from './BombCommand';
 
-export class BombCommand extends InputCatcher {
+export class ButtonBombCommand extends InputCatcher {
     private isPressed: boolean;
-    private cell: Cell;
 
-    constructor(cell: Cell, context: IROContextCfg) {
+    constructor(context: IROContextCfg) {
         super(context.scenes.gameScene, context);
-
-        this.cell = cell;
     }
 
     override onPointerDown(pointer: Phaser.Input.Pointer) {
         this.isPressed = true;
 
-        this.context.scenes.gameScene.gridManager.bombBuster.boom(this.cell);
+        this.context.scenes.hudScene.bombBuster.setCommand(BombCommand);
     }
 
     override onPointerUp(pointer: Phaser.Input.Pointer) {

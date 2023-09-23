@@ -1,72 +1,26 @@
-import { CompareEffect } from '../components/compareEffect/compareEffect';
-import { Component } from '../components/core/Component';
+import { CompareEffect } from '../components/compareEffect/CompareEffect';
 import { COMPONENT_EVENTS } from '../components/core/events';
-import { TeleportCommand } from '../components/input/commands/TeleportCommand';
 import { Text } from '../components/text/Text';
 import { Cell } from '../managers/grid/Cell';
 import { GridManager } from '../managers/grid/GridManager';
 import { IROContextCfg } from '../scenes/types';
+import { Buster } from './core/Buster';
 
-export class Teleport {
-    private readonly gridManager: GridManager;
-    private readonly context: IROContextCfg;
-
-    private count: number;
+export class Teleport extends Buster {
     private teleportCells: Cell[];
-    private isActive: boolean;
 
-    constructor(context: IROContextCfg, gridManager: GridManager) {
-        this.gridManager = gridManager;
-        this.context = context;
+    constructor(
+        context: IROContextCfg,
+        gridManager: GridManager,
+        uiContainer: Phaser.GameObjects.Container,
+        textComponent: Text,
+    ) {
+        super(context, gridManager, uiContainer, textComponent);
 
         this.teleportCells = [];
-        this.count = this.context.jsonGame.teleportCount;
-        this.isActive = false;
-    }
-
-    reset() {
-        this.count = this.context.jsonGame.teleportCount;
-        this.uiDataUpdate();
-
-        this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = 1;
-        this.gridManager.toggleCellInput(false);
-        this.gridManager.toggleCellInput(true);
-    }
-
-    setCommand() {
-        if(!this.count) {
-            return;
-        }
-
-        if(this.isActive) {
-            this.count++;
-            this.uiDataUpdate();
-
-            this.isActive = false;
-            this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = 1;
-            return;
-        }
-
-        this.isActive = true;
-
-        this.gridManager.toggleCellInput(false);
-        this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = 0.5;
-
-        this.gridManager.cells.forEach(cell => {
-            const teleportCommand: Component = new TeleportCommand(
-                cell,
-                this.context,
-            )
-            cell.gameObject.addComponent(teleportCommand);
-        });
-
-        this.count--;
-        this.uiDataUpdate();
     }
 
     async teleport(cell: Cell) {
-        this.isActive = false;
-
         this.teleportCells.push(cell);
 
         if(this.teleportCells.length < 2) {
@@ -97,16 +51,6 @@ export class Teleport {
             .emit(COMPONENT_EVENTS.SET_TEXTURE, firstColor);
 
         this.teleportCells = [];
-        this.context.scenes.hudScene.buttonTeleport.gameObject.container.alpha = !this.count ? 0.5 : 1;
-        this.gridManager.toggleCellInput(false);
-        this.gridManager.toggleCellInput(true);
-    }
-
-    private uiDataUpdate() {
-        const pointText: Text =
-            this.context.scenes.hudScene
-                .buttonTeleport.gameObject.getComponentByName("Points") as Text;
-
-        pointText.setText(this.count + "");
+        this.final();
     }
 }

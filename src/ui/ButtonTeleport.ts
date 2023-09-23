@@ -1,4 +1,4 @@
-import { ButtonTeleportCommand } from "../components/input/commands/ButtonTeleportCommand";
+import { ButtonTeleportCommand } from "../components/input/commands/busters/ButtonTeleportCommand";
 import { Resize } from "../components/resize/Resize";
 import { Sprite } from "../components/sprite/Sprite";
 import { Text } from "../components/text/Text";

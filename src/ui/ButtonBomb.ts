@@ -1,4 +1,4 @@
-import { ButtonBombCommand } from "../components/input/commands/ButtonBombCommand";
+import { ButtonBombCommand } from "../components/input/commands/busters/ButtonBombCommand";
 import { Resize } from "../components/resize/Resize";
 import { Sprite } from "../components/sprite/Sprite";
 import { Text } from "../components/text/Text";

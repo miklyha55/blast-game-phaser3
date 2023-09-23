@@ -10,14 +10,10 @@ import { Blocks } from './Blocks';
 import { CompareCommand } from '../../components/input/commands/CompareCommand';
 import { Component } from '../../components/core/Component';
 import { Text } from '../../components/text/Text';
-import { Bomb } from '../../busters/Bomb';
-import { CompareEffect } from '../../components/compareEffect/compareEffect';
-import { Teleport } from '../../busters/Teleport';
+import { CompareEffect } from '../../components/compareEffect/CompareEffect';
 
 export class GridManager {
     cellsContainer: Phaser.GameObjects.Container;
-    bombBuster: Bomb;
-    teleportBuster: Teleport;
     cells: Cell[];
 
     private readonly props: IROGridCfg;
@@ -43,9 +39,6 @@ export class GridManager {
 
         this.cellsContainer = new Blocks({ context: this.context }).gameObject.container;
         new Bg({context: this.context}).gameObject.container;
-
-        this.bombBuster = new Bomb(this.context, this);
-        this.teleportBuster = new Teleport(this.context, this);
 
         this.createMask();
         this.createGrid();
@@ -86,8 +79,8 @@ export class GridManager {
         this.shuffleCount = this.context.jsonGame.shuffleCount;
         this.movesCount = this.context.jsonGame.movesCount;
         
-        this.bombBuster.reset();
-        this.teleportBuster.reset();
+        this.context.scenes.hudScene.bombBuster.reset();
+        this.context.scenes.hudScene.teleportBuster.reset();
         
         this.uiDataUpdate();
     }
