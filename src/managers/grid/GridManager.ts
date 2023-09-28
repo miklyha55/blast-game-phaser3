@@ -187,6 +187,10 @@ export class GridManager {
             this.compareCells = [];
             this.loopCompare(cell);
 
+            this.compareCells?.forEach(compareCell => {
+                compareCell.isDeathPrepare = false;
+            });
+
             if(this.compareCells.length > this.context.jsonGame.minCompareCount) {
                 isFinal = false;
                 break;
@@ -283,40 +287,32 @@ export class GridManager {
         });
     }
 
-    private loopCompare(cellCompare: Cell) {
+    private loopCompare(cell: Cell) {
+        const directionCells: Cell[] = [];
+        const direction: IVec2[] =
+            [{x: 1, y: 0}, {x: 0, y: 1}, {x: -1, y: 0}, {x: 0, y: -1}];
         const screenCells: Cell[] =
             this.cells.filter((cell) => cell.row >= this.context.jsonGame.grid.row);
+        
+        directionCells.push(cell);
+        
+        do {
+            const compareCell = directionCells[0];
 
-        if(this.compareCells.includes(cellCompare)) {
-            return;
-        }
+            directionCells.shift();
+            
+            direction.forEach(direction => {
+                const directionCell: Cell = screenCells.find((cell) =>
+                    cell.col === compareCell.col - direction.x && cell.row === compareCell.row - direction.y);
+                
+                if(directionCell != null && !directionCell.isDeathPrepare && compareCell.color === directionCell.color) {
+                    directionCells.push(directionCell);
+                }
+            });
 
-        this.compareCells.push(cellCompare);
-
-        const leftCell: Cell =
-            screenCells.find((cell) => cell.col === cellCompare.col - 1 && cell.row === cellCompare.row);
-        const rightCell: Cell =
-            screenCells.find((cell) => cell.col === cellCompare.col + 1 && cell.row === cellCompare.row);
-        const topCell: Cell =
-            screenCells.find((cell) => cell.col === cellCompare.col && cell.row === cellCompare.row - 1);
-        const bottomCell: Cell =
-            screenCells.find((cell) => cell.col === cellCompare.col && cell.row === cellCompare.row + 1);
-
-        if(leftCell != null && cellCompare.color === leftCell.color) {
-            this.loopCompare(leftCell);
-        }
-
-        if(rightCell != null && cellCompare.color === rightCell.color) {
-            this.loopCompare(rightCell);
-        }
-
-        if(topCell != null && cellCompare.color === topCell.color) {
-            this.loopCompare(topCell);
-        }
-
-        if(bottomCell != null && cellCompare.color === bottomCell.color) {
-            this.loopCompare(bottomCell);
-        }
+            compareCell.isDeathPrepare = true;
+            this.compareCells.push(compareCell);
+        } while(directionCells.length);
     }
 
     private createGrid() {
@@ -344,8 +340,8 @@ export class GridManager {
         cell.remove = () => {
             cell.gameObject.remove();
 
-            this.cells.forEach((cellCompare, index) => {
-                if(cell.col === cellCompare.col && cell.row === cellCompare.row) {
+            this.cells.forEach((compareCell, index) => {
+                if(cell.col === compareCell.col && cell.row === compareCell.row) {
                     this.cells.splice(index, 1);
                 }
             });

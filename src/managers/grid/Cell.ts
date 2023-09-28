@@ -14,6 +14,7 @@ export class Cell {
     color: string;
     gameObject: GameObject;
     context: IROContextCfg;
+    isDeathPrepare: boolean;
 
     constructor(props: IROCellCfg) {
         this.gameObject = props.context.gameObjectManager.createGameObject(
@@ -46,6 +47,7 @@ export class Cell {
         this.context = props.context;
         this.col = props.col;
         this.row = props.row;
+        this.isDeathPrepare = false;
 
         this.onCreate();
 
